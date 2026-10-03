@@ -1,7 +1,5 @@
 #include "solid.h"
 
-#include <SDL2/SDL_render.h>
-
 void SDLGames_DrawSolid(SDLGames_window *sdlg_window, SDL_Rect rect,
                         SDLGames_color color)
 {

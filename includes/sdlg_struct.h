@@ -1,4 +1,7 @@
-#include <SDL2/SDL.h>
+#ifndef SDLG_INCLUDE_H
+#define SDLG_INCLUDE_H
+
+#include <SDL3/SDL.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -22,3 +25,5 @@ typedef struct
 #define BLUE (SDLGames_color){ 0, 0, 255, 255 }
 #define BLACK (SDLGames_color){ 0, 0, 0, 255 }
 #define WHITE (SDLGames_color){ 255, 255, 255, 255 }
+
+#endif

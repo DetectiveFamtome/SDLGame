@@ -1,25 +1,30 @@
-SRC    = main.c draw/solid.c
+SRC    = main.c draw/solid.c utils/utils.c
 MAIN   = main.c
 OBJ    = $(SRC:.c=.o)
 
-LFLAG  = -lSDL2 $(pkg-config sdl2 --cflags)
-CFLAGS = $(LFLAG) -std=c99 -pedantic -fsanitize=address -Werror -Wall -Wextra -Wvla 
+INCL   = -I includes 
+
+LFLAG  = $(shell pkg-config --libs sdl2)
+CFLAGS = $(LFLAG) -std=c99 -pedantic  -Werror -Wall -Wextra -Wvla -fsanitize=address
 CRITER = -lcriterion
 
-EXEC   = Game
+COMPL  = $(EXEC) $(INCL) $(CFLAGS)
 
+EXEC   = SLDGame
 
-prod: $(OBJ) $(MAIN:.c=.o)
-	gcc $^ -o $(EXEC) $(CFLAGS)
+prod: $(EXEC)
+
+$(EXEC): $(OBJ) $(MAIN:.c=.o)
+	gcc $^ -o $(COMPL)
 
 all: $(OBJ) $(TESTS:.c=.o)
-	gcc $^ -o $(EXEC) $(CFLAGS) $(CRITER)
+	gcc $^ -o $(COMPL) $(CRITER)
 
 %.o: %.c
-	gcc -c $< -o $@ $(CFLAGS) 
+	gcc -c $< -o $@ $(INCL) $(CFLAGS)
 
 debug: $(SRC)
-	gcc $^ -o $(EXEC) $(CFLAGS) -g
+	gcc $^ -o $(COMPL) -g
 
 clean:
 	rm -f $(OBJ) $(EXEC)
