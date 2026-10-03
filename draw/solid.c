@@ -1,7 +1,9 @@
 #include "solid.h"
+
 #include <SDL2/SDL_render.h>
 
-void SDLGames_DrawSolid(SDLGames_window* sdlg_window, SDL_Rect rect, SDLGames_color color)
+void SDLGames_DrawSolid(SDLGames_window *sdlg_window, SDL_Rect rect,
+                        SDLGames_color color)
 {
     /*
         inputs: SDLGames_window*: Window to draw
@@ -10,7 +12,8 @@ void SDLGames_DrawSolid(SDLGames_window* sdlg_window, SDL_Rect rect, SDLGames_co
 
         description: Shortcut to draw a shape on a window
     */
-    
-    SDL_SetRenderDrawColor(sdlg_window->renderer, color.red, color.green, color.blue, color.opacity);
+
+    SDL_SetRenderDrawColor(sdlg_window->renderer, color.red, color.green,
+                           color.blue, color.opacity);
     SDL_RenderFillRect(sdlg_window->renderer, &rect);
 }
