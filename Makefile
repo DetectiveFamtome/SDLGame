@@ -5,26 +5,37 @@ OBJ    = $(SRC:.c=.o)
 INCL   = -I includes 
 
 LFLAG  = $(shell pkg-config --libs sdl3)
-CFLAGS = $(LFLAG) -std=c99 -pedantic  -Werror -Wall -Wextra -Wvla -fsanitize=address
+CFLAGD = -fsanitize=address
+CFLAGS = $(LFLAG) -std=c99 -pedantic -Werror -Wall -Wextra -Wvla 
 CRITER = -lcriterion
 
-COMPL  = $(EXEC) $(INCL) $(CFLAGS)
-
 EXEC   = SLDGame
+EDEV   = $(EXEC)-dev.out
+FINAL  = $(EXEC).out
+TEST   = $(EXEC)-test.out
 
-prod: $(EXEC)
+COMPL  = $(INCL) $(CFLAGS)
 
-$(EXEC): $(OBJ) $(MAIN:.c=.o)
-	gcc $^ -o $(COMPL)
+dev: $(EDEV)
 
-all: $(OBJ) $(TESTS:.c=.o)
-	gcc $^ -o $(COMPL) $(CRITER)
+prod: $(FINAL)
+
+test: $(TEST)
+
+$(EDEV): $(OBJ) $(MAIN:.c=.o)
+	gcc $^ -o $@ $(COMPL) $(CFLAGD)
+
+$(FINAL): $(OBJ) $(MAIN:.c=.o) 
+	gcc $^ -o $@ $(COMPL)
+
+$(TEST): $(OBJ) $(TESTS:.c=.o)
+	gcc $^ -o $@ $(COMPL) $(CRITER)
 
 %.o: %.c
-	gcc -c $< -o $@ $(INCL) $(CFLAGS)
+	gcc -c $< -o $@ $(COMPL)
 
 debug: $(SRC)
-	gcc $^ -o $(COMPL) -g
+	gcc $^ -o $@ $(COMPL) -g
 
 clean:
-	rm -f $(OBJ) $(EXEC)
+	rm -f $(OBJ) $(EXEC)*

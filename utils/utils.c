@@ -51,6 +51,8 @@ SDLGames_window *SDLGames_init(char *window_name, unsigned int w,
 
     result->window = wind;
     result->renderer = r;
+    result->width = w;
+    result->height = h;
 
     return result;
 }
@@ -60,6 +62,13 @@ inline char SDLGames_FindEvent(Uint32 search_event)
     SDL_PumpEvents();
     return SDL_PeepEvents(NULL, 0, SDL_PEEKEVENT, search_event, search_event)
         > 0;
+}
+
+inline void SDLGames_ClearBack(SDLGames_window *wind, SDLGames_Color color)
+{
+    SDL_SetRenderDrawColor(wind->renderer, color.red, color.green, color.blue,
+                           color.opacity);
+    SDL_RenderClear(wind->renderer);
 }
 
 void SDLGames_update(SDLGames_window *window)

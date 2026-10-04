@@ -2,17 +2,37 @@
 
 int main()
 {
-    SDLGames_window *wind = SDLGames_init("Manifique", 200, 200, 0);
+    SDLGames_window *wind = SDLGames_init("Manifique", 1420, 1000, 0);
 
     char running = 1;
+
+    size_t x = 0;
+    size_t y = 0;
+    int x_s = 1;
+    int y_s = x_s;
 
     while (running)
     {
         running = !SDLGames_FindEvent(SDL_EVENT_QUIT);
 
-        SDLGames_DrawSolid(wind, (SDL_FRect){ 10, 10, 10, 10 }, GREEN);
+        SDLGames_ClearBack(wind, BLACK);
+
+        x += x_s;
+        y += y_s;
+
+        if (x == 0 || x + 20 >= wind->width)
+        {
+            x_s = -x_s;
+        }
+        if (y == 0 || y + 20 >= wind->height)
+        {
+            y_s = -y_s;
+        }
+
+        SDLGames_DrawSolid(wind, (SDL_FRect){ RECT(x, y, 20, 20) }, GREEN);
 
         SDLGames_update(wind);
+        SDL_Delay(5);
     }
 
     SDLGames_quit(wind);

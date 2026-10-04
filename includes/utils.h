@@ -1,5 +1,5 @@
-#ifndef SDLG_UTILS
-#define SDLG_UTILS
+#ifndef SDLG_UTILS_H
+#define SDLG_UTILS_H
 
 #include "sdlg_struct.h"
 
@@ -9,4 +9,5 @@ SDLGames_window *SDLGames_init(char *window_name, unsigned int w,
                                unsigned int h, Uint32 option_window);
 
 void SDLGames_quit(SDLGames_window *wind);
+void SDLGames_ClearBack(SDLGames_window *wind, SDLGames_Color color);
 #endif
