@@ -1,12 +1,10 @@
 #include "utils.h"
 
-SDLGames_window *SDLGames_init(char *window_name, SDL_Rect position,
-                               Uint32 option_window, Uint32 option_renderer)
+SDLGames_window *SDLGames_init(char *window_name, unsigned int w,
+                               unsigned int h, Uint32 option_window)
 {
     /*
         inputs: char*: window's name
-                uint: x position of the window
-                uint: y position of the window
                 uint: width of the window
                 uint: height of the window
                 Uint32: SDL's window option (see SDL windows options)
@@ -17,7 +15,7 @@ SDLGames_window *SDLGames_init(char *window_name, SDL_Rect position,
         description: Shortcut for initilize SDL window.
     */
 
-    if (SDL_Init(SDL_INIT_VIDEO) < 0)
+    if (!SDL_Init(SDL_INIT_VIDEO))
     {
         printf("SDLGames: Something is wrong with initialisation of SDL\n");
         return NULL;
@@ -27,18 +25,32 @@ SDLGames_window *SDLGames_init(char *window_name, SDL_Rect position,
     if (result == NULL)
     {
         printf("SDL_games: Fail to creat SDLGames_window\n");
-        return 0;
-    }
-
-    result->window = SDL_CreateWindow(window_name, position.x, position.y,
-                                      position.w, position.h, option_window);
-    result->renderer = SDL_CreateRenderer(result->window, -1, option_renderer);
-
-    if (result == NULL || result->window == NULL || result->renderer == NULL)
-    {
-        printf("SDL_games: Fail to creat window or/and renderer\n");
         SDL_Quit();
+        return NULL;
     }
+
+    SDL_Window *wind = SDL_CreateWindow(window_name, w, h, option_window);
+
+    if (wind == NULL)
+    {
+        printf("SDL_games: Fail to creat window\n");
+        SDL_Quit();
+        return NULL;
+    }
+
+    SDL_Renderer *r = SDL_CreateRenderer(wind, NULL);
+
+    if (r == NULL)
+    {
+        printf("SDL_games: Fail to creat renderer\n");
+
+        SDL_DestroyWindow(wind);
+        SDL_Quit();
+        return NULL;
+    }
+
+    result->window = wind;
+    result->renderer = r;
 
     return result;
 }
@@ -56,7 +68,7 @@ void SDLGames_update(SDLGames_window *window)
 
     while (SDL_PollEvent(&event))
     {
-        if (event.type == SDL_QUIT)
+        if (event.type == SDL_EVENT_QUIT)
         {
             SDL_PushEvent(&event);
             break;

@@ -19,6 +19,9 @@ typedef struct
     unsigned int opacity;
 } SDLGames_color;
 
+// Size window
+#define RECT(X, Y, W, H) X, Y, W, H
+
 // Primary colors consts
 #define GREEN (SDLGames_color){ 0, 255, 0, 255 }
 #define RED (SDLGames_color){ 255, 0, 0, 255 }

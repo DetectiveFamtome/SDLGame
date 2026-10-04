@@ -4,7 +4,7 @@ OBJ    = $(SRC:.c=.o)
 
 INCL   = -I includes 
 
-LFLAG  = $(shell pkg-config --libs sdl2)
+LFLAG  = $(shell pkg-config --libs sdl3)
 CFLAGS = $(LFLAG) -std=c99 -pedantic  -Werror -Wall -Wextra -Wvla -fsanitize=address
 CRITER = -lcriterion
 

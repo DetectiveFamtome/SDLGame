@@ -2,8 +2,7 @@
 
 int main()
 {
-    SDLGames_window *wind =
-        SDLGames_init("Manifique", (SDL_Rect){ 200, 200, 200, 200 }, 0, 0);
+    SDLGames_window *wind = SDLGames_init("Manifique", 200, 200, 0);
 
     char running = 1;
 
@@ -11,7 +10,7 @@ int main()
     {
         running = !SDLGames_FindEvent(SDL_EVENT_QUIT);
 
-        SDLGames_DrawSolid(wind, (SDL_Rect){ 10, 10, 10, 10 }, GREEN);
+        SDLGames_DrawSolid(wind, (SDL_FRect){ 10, 10, 10, 10 }, GREEN);
 
         SDLGames_update(wind);
     }

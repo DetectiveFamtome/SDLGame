@@ -3,6 +3,6 @@
 
 #include "sdlg_struct.h"
 
-void SDLGames_DrawSolid(SDLGames_window *renderer, SDL_Rect rect,
+void SDLGames_DrawSolid(SDLGames_window *renderer, SDL_FRect rect,
                         SDLGames_color color);
 #endif
