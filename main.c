@@ -29,7 +29,7 @@ int main()
             y_s = -y_s;
         }
 
-        SDLGames_DrawSolid(wind, (SDL_FRect){ RECT(x, y, 20, 20) }, GREEN);
+        SDLGames_DrawSolidRect(wind, (SDL_FRect){ RECT(x, y, 20, 20) }, GREEN);
 
         SDLGames_update(wind);
         SDL_Delay(5);

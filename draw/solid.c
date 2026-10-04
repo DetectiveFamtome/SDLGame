@@ -1,7 +1,7 @@
 #include "solid.h"
 
-void SDLGames_DrawSolid(SDLGames_window *sdlg_window, SDL_FRect rect,
-                        SDLGames_Color color)
+void SDLGames_DrawSolidRect(SDLGames_window *sdlg_window, SDL_FRect rect,
+                            SDLGames_Color color)
 {
     /*
         inputs: SDLGames_window*: Window to draw
