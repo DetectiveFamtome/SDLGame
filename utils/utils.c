@@ -1,7 +1,6 @@
 #include "utils.h"
 
-SDLGames_window *SDLGames_Init(char *window_name, unsigned int w,
-                               unsigned int h, Uint32 option_window)
+SDLGames_Window *SDLGames_Init(SDLGames_InitArgs args)
 {
     /*
         inputs: char*: window's name
@@ -21,40 +20,65 @@ SDLGames_window *SDLGames_Init(char *window_name, unsigned int w,
         return NULL;
     }
 
-    SDLGames_window *result = malloc(sizeof(SDLGames_window));
-    if (result == NULL)
+    SDLGames_Window *res = malloc(sizeof(SDLGames_Window));
+    if (!res)
     {
-        printf("SDL_games: Fail to creat SDLGames_window\n");
         SDL_Quit();
         return NULL;
     }
 
-    SDL_Window *wind = SDL_CreateWindow(window_name, w, h, option_window);
-
-    if (wind == NULL)
+    SDLGames_Renderers *rend = malloc(sizeof(SDLGames_Renderers));
+    if (!rend)
     {
-        printf("SDL_games: Fail to creat window\n");
         SDL_Quit();
+        free(res);
         return NULL;
     }
 
-    SDL_Renderer *r = SDL_CreateRenderer(wind, NULL);
-
-    if (r == NULL)
+    SDL_Window *wind =
+        SDL_CreateWindow(args.window_name, args.w, args.h, args.window_option);
+    if (!wind)
     {
-        printf("SDL_games: Fail to creat renderer\n");
+        SDL_Quit();
+        free(res);
+        free(rend);
+        return NULL;
+    }
 
+    SDL_Renderer *f_rend = SDL_CreateRenderer(wind, NULL);
+    if (!f_rend)
+    {
+        SDL_Quit();
+        free(res);
+        free(rend);
         SDL_DestroyWindow(wind);
-        SDL_Quit();
         return NULL;
     }
 
-    result->window = wind;
-    result->renderer = r;
-    result->width = w;
-    result->height = h;
+    SDL_Renderer **l_rend = calloc(args.nb_renderers, sizeof(SDL_Renderer *));
+    if (!l_rend)
+    {
+        SDL_Quit();
+        free(res);
+        free(rend);
+        SDL_DestroyWindow(wind);
+        SDL_DestroyRenderer(f_rend);
+        return NULL;
+    }
 
-    return result;
+    l_rend[0] = f_rend;
+
+    rend->max = args.nb_renderers;
+    rend->curr_max = 0;
+    rend->curr = f_rend;
+    rend->renderers = l_rend;
+
+    res->width = args.w;
+    res->height = args.h;
+    res->window = wind;
+    res->renderers = rend;
+
+    return res;
 }
 
 inline char SDLGames_FindEvent(Uint32 search_event)
@@ -64,14 +88,14 @@ inline char SDLGames_FindEvent(Uint32 search_event)
         > 0;
 }
 
-inline void SDLGames_ClearBack(SDLGames_window *wind, SDLGames_Color color)
+inline void SDLGames_ClearBack(SDLGames_Window *wind, SDLGames_Color color)
 {
-    SDL_SetRenderDrawColor(wind->renderer, color.red, color.green, color.blue,
-                           color.opacity);
-    SDL_RenderClear(wind->renderer);
+    SDL_SetRenderDrawColor(wind->renderers->curr, color.red, color.green,
+                           color.blue, color.opacity);
+    SDL_RenderClear(wind->renderers->curr);
 }
 
-void SDLGames_Update(SDLGames_window *window)
+void SDLGames_Update(SDLGames_Window *window)
 {
     SDL_Event event;
 
@@ -84,10 +108,10 @@ void SDLGames_Update(SDLGames_window *window)
         }
     }
 
-    SDL_RenderPresent(window->renderer);
+    SDL_RenderPresent(window->renderers->curr);
 }
 
-void SDLGames_Quit(SDLGames_window *wind)
+void SDLGames_Quit(SDLGames_Window *wind)
 {
     /*
         input: SDLGames_window*: the target window
@@ -95,9 +119,15 @@ void SDLGames_Quit(SDLGames_window *wind)
         description: End and free for terminate the programme
     */
 
-    SDL_DestroyWindow(wind->window);
-    SDL_DestroyRenderer(wind->renderer);
+    for (size_t i = 0; i <= wind->renderers->curr_max; i++)
+    {
+        SDL_DestroyRenderer(wind->renderers->renderers[i]);
+    }
 
+    SDL_DestroyWindow(wind->window);
+
+    free(wind->renderers->renderers);
+    free(wind->renderers);
     free(wind);
     SDL_Quit();
 }
