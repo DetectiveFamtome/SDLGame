@@ -1,6 +1,6 @@
 #include "utils.h"
 
-SDLGames_window *SDLGames_init(char *window_name, unsigned int w,
+SDLGames_window *SDLGames_Init(char *window_name, unsigned int w,
                                unsigned int h, Uint32 option_window)
 {
     /*
@@ -71,7 +71,7 @@ inline void SDLGames_ClearBack(SDLGames_window *wind, SDLGames_Color color)
     SDL_RenderClear(wind->renderer);
 }
 
-void SDLGames_update(SDLGames_window *window)
+void SDLGames_Update(SDLGames_window *window)
 {
     SDL_Event event;
 
@@ -87,7 +87,7 @@ void SDLGames_update(SDLGames_window *window)
     SDL_RenderPresent(window->renderer);
 }
 
-void SDLGames_quit(SDLGames_window *wind)
+void SDLGames_Quit(SDLGames_window *wind)
 {
     /*
         input: SDLGames_window*: the target window

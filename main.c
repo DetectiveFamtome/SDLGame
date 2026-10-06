@@ -2,7 +2,7 @@
 
 int main()
 {
-    SDLGames_window *wind = SDLGames_init("Manifique", 1420, 1000, 0);
+    SDLGames_Window *wind = SDLGames_Init("Manifique", 1420, 1000, 0);
 
     char running = 1;
 
@@ -31,11 +31,11 @@ int main()
 
         SDLGames_DrawSolidRect(wind, (SDL_FRect){ RECT(x, y, 20, 20) }, GREEN);
 
-        SDLGames_update(wind);
+        SDLGames_Update(wind);
         SDL_Delay(5);
     }
 
-    SDLGames_quit(wind);
+    SDLGames_Quit(wind);
 
     return 0;
 }
