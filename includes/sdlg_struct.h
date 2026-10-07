@@ -29,6 +29,8 @@
 
 #define UW_COLOR(color) color.r, color.g, color.b, color.a²
 
+// ##### Init and main window ######
+
 typedef struct SDLGames_InitArgs
 {
     char *window_name;
@@ -52,35 +54,26 @@ typedef struct SDLGames_Window
 
 } SDLGames_Window;
 
+// ##### "Displayable" Object #####
+
 enum SDLGames_TypeObject
 {
     DISPLAY_RENDERER,
     DISPLAY_TEXTURE,
-}
+    DISPLAY_SOLID,
+};
 
 typedef union SDLGames_ObjectData
 {
-    SDL_Surface *
-}
+    SDL_Surface *surface;
+    SDL_Texture *teture;
+} SDLGames_ObjectData;
 
 typedef struct SDLGames_Object
 {
     enum SDLGames_TypeObject type;
-
-}
-
-enum SDLGames_TypeDisplay {
-    SOLID_PLAIN = 1,
-    SOLID_EMPTY = 2,
-    IMAGE = 3,
-};
-
-typedef struct SDLGames_KindDisplay
-{
-    enum SDLGames_TypeDisplay type;
-    SDL_Surface *data;
     SDL_FRect position;
-    SDL_Color color;
-} SDLGames_KindDisplay;
+    SDLGames_ObjectData *objet;
+} SDLGames_Object;
 
 #endif
