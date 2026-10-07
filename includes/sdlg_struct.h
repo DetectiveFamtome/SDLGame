@@ -7,67 +7,6 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct SDLGames_InitArgs
-{
-    char *window_name;
-    size_t w;
-    size_t h;
-    Uint32 window_option;
-
-    size_t nb_renderers;
-
-} SDLGames_InitArgs;
-
-typedef struct SDLGames_Renderers
-{
-    size_t max;
-    size_t curr_max;
-
-    SDL_Renderer *curr;
-    SDL_Renderer **renderers;
-
-} SDLGames_Renderers;
-
-typedef struct SDLGames_Window
-{
-    size_t width;
-    size_t height;
-
-    SDL_Window *window;
-
-    SDLGames_Renderers *renderers;
-
-} SDLGames_Window;
-
-typedef struct SDLGames_Color
-{
-    unsigned int red;
-    unsigned int green;
-    unsigned int blue;
-    unsigned int opacity;
-
-} SDLGames_Color;
-
-typedef union SDLGames_DisplayData
-{
-    SDLGames_Color color;
-    SDL_Surface *image;
-
-} SDLGames_DisplayData;
-
-enum SDLGames_TypeDisplay
-{
-    SOLID_PLAIN = 1,
-    SOLID_EMPTY = 2,
-    IMAGE = 3,
-};
-
-typedef struct SDLGames_KindDisplay
-{
-    enum SDLGames_TypeDisplay type;
-    SDLGames_DisplayData data;
-} SDLGames_KindDisplay;
-
 // All arguments for a rectangle
 #define RECT(X, Y, W, H)                                                       \
     (SDL_FRect)                                                                \
@@ -83,11 +22,65 @@ typedef struct SDLGames_KindDisplay
 #define WHITE(opacity) 255, 255, 255, opacity
 
 #define SDLG_COLOR(r, g, b, a)                                                 \
-    (SDLGames_Color)                                                           \
+    (SDL_Color)                                                                \
     {                                                                          \
         r, g, b, a                                                             \
     }
 
-#define UW_COLOR(color) color.red, color.green, color.blue, color.opacity
+#define UW_COLOR(color) color.r, color.g, color.b, color.a²
+
+typedef struct SDLGames_InitArgs
+{
+    char *window_name;
+    size_t w;
+    size_t h;
+    Uint32 window_option;
+
+    size_t nb_renderers;
+
+} SDLGames_InitArgs;
+
+typedef struct SDLGames_Window
+{
+    size_t width;
+    size_t height;
+    SDL_Window *window;
+
+    SDL_Renderer *renderer;
+
+    SDL_Texture *texture;
+
+} SDLGames_Window;
+
+enum SDLGames_TypeObject
+{
+    DISPLAY_RENDERER,
+    DISPLAY_TEXTURE,
+}
+
+typedef union SDLGames_ObjectData
+{
+    SDL_Surface *
+}
+
+typedef struct SDLGames_Object
+{
+    enum SDLGames_TypeObject type;
+
+}
+
+enum SDLGames_TypeDisplay {
+    SOLID_PLAIN = 1,
+    SOLID_EMPTY = 2,
+    IMAGE = 3,
+};
+
+typedef struct SDLGames_KindDisplay
+{
+    enum SDLGames_TypeDisplay type;
+    SDL_Surface *data;
+    SDL_FRect position;
+    SDL_Color color;
+} SDLGames_KindDisplay;
 
 #endif
