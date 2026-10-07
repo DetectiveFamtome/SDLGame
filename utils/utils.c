@@ -45,38 +45,23 @@ SDLGames_Window *SDLGames_Init(SDLGames_InitArgs args)
         return NULL;
     }
 
-    SDL_Renderer *f_rend = SDL_CreateRenderer(wind, NULL);
+    SDL_Renderer *rend = SDL_CreateRenderer(wind, NULL);
     if (!f_rend)
     {
         SDL_Quit();
         free(res);
-        free(rend);
         SDL_DestroyWindow(wind);
         return NULL;
     }
 
-    SDL_Renderer **l_rend = calloc(args.nb_renderers, sizeof(SDL_Renderer *));
-    if (!l_rend)
-    {
-        SDL_Quit();
-        free(res);
-        free(rend);
-        SDL_DestroyWindow(wind);
-        SDL_DestroyRenderer(f_rend);
-        return NULL;
-    }
-
-    l_rend[0] = f_rend;
-
-    rend->max = args.nb_renderers;
-    rend->curr_max = 0;
-    rend->curr = f_rend;
-    rend->renderers = l_rend;
+    // PIXEL_FORMAT a changer ???
+    SDL_Texture *text = SDL_CreateTexture(rend, SDL_PIXELFORMAT_RGBA32,
+                                          SDL_TEXTUREACCESS_TARGET);
 
     res->width = args.w;
     res->height = args.h;
     res->window = wind;
-    res->renderers = rend;
+    res->renderer = rend;
 
     return res;
 }
