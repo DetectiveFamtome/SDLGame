@@ -49,8 +49,6 @@ int main()
     {
         running = !SDLGames_FindEvent(SDL_EVENT_QUIT);
 
-        SDLGames_ClearBack(wind, SDLG_COLOR(0, 0, 0, 255));
-
         for (int i = 0; i < 10; i++)
         {
             update_bob(bobs + i, wind);

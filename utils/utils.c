@@ -27,26 +27,17 @@ SDLGames_Window *SDLGames_Init(SDLGames_InitArgs args)
         return NULL;
     }
 
-    SDLGames_Renderers *rend = malloc(sizeof(SDLGames_Renderers));
-    if (!rend)
-    {
-        SDL_Quit();
-        free(res);
-        return NULL;
-    }
-
     SDL_Window *wind =
         SDL_CreateWindow(args.window_name, args.w, args.h, args.window_option);
     if (!wind)
     {
         SDL_Quit();
         free(res);
-        free(rend);
         return NULL;
     }
 
     SDL_Renderer *rend = SDL_CreateRenderer(wind, NULL);
-    if (!f_rend)
+    if (!rend)
     {
         SDL_Quit();
         free(res);
@@ -55,13 +46,16 @@ SDLGames_Window *SDLGames_Init(SDLGames_InitArgs args)
     }
 
     // PIXEL_FORMAT a changer ???
-    SDL_Texture *text = SDL_CreateTexture(rend, SDL_PIXELFORMAT_RGBA32,
-                                          SDL_TEXTUREACCESS_TARGET);
+    SDL_Texture *text = SDL_CreateTexture(
+        rend, SDL_PIXELFORMAT_RGBA32, SDL_TEXTUREACCESS_TARGET, args.w, args.h);
 
     res->width = args.w;
     res->height = args.h;
     res->window = wind;
     res->renderer = rend;
+    res->texture = text;
+
+    SDL_SetRenderTarget(rend, text);
 
     return res;
 }
@@ -71,13 +65,6 @@ inline char SDLGames_FindEvent(Uint32 search_event)
     SDL_PumpEvents();
     return SDL_PeepEvents(NULL, 0, SDL_PEEKEVENT, search_event, search_event)
         > 0;
-}
-
-inline void SDLGames_ClearBack(SDLGames_Window *wind, SDLGames_Color color)
-{
-    SDL_SetRenderDrawColor(wind->renderers->curr, color.red, color.green,
-                           color.blue, color.opacity);
-    SDL_RenderClear(wind->renderers->curr);
 }
 
 void SDLGames_Update(SDLGames_Window *window)
@@ -92,8 +79,9 @@ void SDLGames_Update(SDLGames_Window *window)
             break;
         }
     }
-
-    SDL_RenderPresent(window->renderers->curr);
+    SDL_SetRenderTarget(window->renderer, NULL);
+    SDL_RenderPresent(window->renderer);
+    SDL_SetRenderTarget(window->renderer, window->texture);
 }
 
 void SDLGames_Quit(SDLGames_Window *wind)
@@ -104,15 +92,10 @@ void SDLGames_Quit(SDLGames_Window *wind)
         description: End and free for terminate the programme
     */
 
-    for (size_t i = 0; i <= wind->renderers->curr_max; i++)
-    {
-        SDL_DestroyRenderer(wind->renderers->renderers[i]);
-    }
-
     SDL_DestroyWindow(wind->window);
+    SDL_DestroyTexture(wind->texture);
+    SDL_DestroyRenderer(wind->renderer);
 
-    free(wind->renderers->renderers);
-    free(wind->renderers);
     free(wind);
     SDL_Quit();
 }

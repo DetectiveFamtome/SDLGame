@@ -27,7 +27,7 @@
         r, g, b, a                                                             \
     }
 
-#define UW_COLOR(color) color.r, color.g, color.b, color.a²
+#define UW_COLOR(color) color.r, color.g, color.b, color.a
 
 // ##### Init and main window ######
 
@@ -67,6 +67,7 @@ typedef union SDLGames_ObjectData
 {
     SDL_Surface *surface;
     SDL_Texture *teture;
+    SDL_Color *color;
 } SDLGames_ObjectData;
 
 typedef struct SDLGames_Object

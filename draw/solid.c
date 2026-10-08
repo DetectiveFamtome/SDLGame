@@ -11,6 +11,6 @@ void SDLGames_DrawSolidRect(SDLGames_Window *sdlg_window, SDL_FRect rect,
         description: Shortcut to draw a shape on a window
     */
 
-    SDL_SetRenderDrawColor(sdlg_window->renderers->curr, UW_COLOR(color);
-    SDL_RenderFillRect(sdlg_window->renderers->curr, &rect);
+    SDL_SetRenderDrawColor(sdlg_window->renderer, UW_COLOR(color));
+    SDL_RenderFillRect(sdlg_window->renderer, &rect);
 }
