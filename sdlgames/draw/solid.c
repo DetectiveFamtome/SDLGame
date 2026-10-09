@@ -1,4 +1,4 @@
-#include "solid.h"
+#include "draw/solid.h"
 
 void SDLGames_DrawSolidRect(SDLGames_Window *sdlg_window, SDL_FRect rect,
                             SDL_Color color)

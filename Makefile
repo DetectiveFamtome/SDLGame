@@ -1,8 +1,8 @@
-SRC    = main.c draw/solid.c utils/utils.c
+SRC    = main.c sdlgames/draw/solid.c sdlgames/utils.c
 MAIN   = main.c
 OBJ    = $(SRC:.c=.o)
 
-INCL   = -I includes 
+INCL   = -I sdlgames/includes 
 
 LFLAG  = $(shell pkg-config --libs sdl3)
 CFLAGD = -fsanitize=address
@@ -32,7 +32,7 @@ $(TEST): $(OBJ) $(TESTS:.c=.o)
 	gcc $^ -o $@ $(COMPL) $(CRITER)
 
 %.o: %.c
-	gcc -c $< -o $@ $(COMPL)
+	gcc -c $< -o $@ $(COMPL) $(CFLAGD)
 
 debug: $(SRC)
 	gcc $^ -o $@ $(COMPL) -g

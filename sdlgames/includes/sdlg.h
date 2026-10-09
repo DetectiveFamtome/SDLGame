@@ -1,3 +1,3 @@
 #include "sdlg_struct.h"
-#include "solid.h"
+#include "draw/solid.h"
 #include "utils.h"
