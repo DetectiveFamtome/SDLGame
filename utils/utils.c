@@ -80,8 +80,11 @@ void SDLGames_Update(SDLGames_Window *window)
         }
     }
     SDL_SetRenderTarget(window->renderer, NULL);
+    SDL_RenderTexture(window->renderer, window->texture, NULL, NULL);
     SDL_RenderPresent(window->renderer);
     SDL_SetRenderTarget(window->renderer, window->texture);
+    SDL_SetRenderDrawColor(window->renderer, 0, 0, 0, 255);
+    SDL_RenderClear(window->renderer);
 }
 
 void SDLGames_Quit(SDLGames_Window *wind)
