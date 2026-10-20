@@ -1,4 +1,4 @@
-SRC    = main.c sdlgames/draw/solid.c sdlgames/utils.c
+SRC    = $(git ls-files | grep -E "sdlgames/src/*\.c$")
 MAIN   = main.c
 OBJ    = $(SRC:.c=.o)
 
