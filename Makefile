@@ -1,4 +1,4 @@
-SRC    = $(git ls-files | grep -E "sdlgames/src/*\.c$")
+SRC    = $(shell find . -type f -name '*.c')
 MAIN   = main.c
 OBJ    = $(SRC:.c=.o)
 
