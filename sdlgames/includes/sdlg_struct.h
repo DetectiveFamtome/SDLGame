@@ -58,12 +58,11 @@ typedef struct SDLGames_Window
 
 enum SDLGames_TypeObject
 {
-    DISPLAY_RENDERER,
     DISPLAY_TEXTURE,
     DISPLAY_SOLID,
 };
 
-typedef union SDLGames_ObjectData
+typedef struct SDLGames_ObjectData
 {
     SDL_Surface *surface;
     SDL_Texture *teture;

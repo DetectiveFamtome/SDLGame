@@ -79,6 +79,7 @@ void SDLGames_Update(SDLGames_Window *window)
             break;
         }
     }
+
     SDL_SetRenderTarget(window->renderer, NULL);
     SDL_RenderTexture(window->renderer, window->texture, NULL, NULL);
     SDL_RenderPresent(window->renderer);
