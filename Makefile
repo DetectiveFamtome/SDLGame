@@ -1,4 +1,4 @@
-SRC    = $(shell find . -type f -name '*.c')
+SRC    = $(shell find sdlgames/src -type f -wholename '*.c')
 MAIN   = main.c
 OBJ    = $(SRC:.c=.o)
 
@@ -6,7 +6,7 @@ INCL   = -I sdlgames/includes
 
 LFLAG  = $(shell pkg-config --libs sdl3)
 CFLAGD = -fsanitize=address
-CFLAGS = $(LFLAG) -std=c99 -pedantic -Werror -Wall -Wextra -Wvla 
+CFLAGS = -std=c99 -pedantic -Werror -Wall -Wextra -Wvla 
 CRITER = -lcriterion
 
 EXEC   = SLDGame
@@ -23,7 +23,7 @@ prod: $(FINAL)
 test: $(TEST)
 
 $(EDEV): $(OBJ) $(MAIN:.c=.o)
-	gcc $^ -o $@ $(COMPL) $(CFLAGD)
+	gcc $^ -o $@ $(LFLAG)
 
 $(FINAL): $(OBJ) $(MAIN:.c=.o) 
 	gcc $^ -o $@ $(COMPL)
@@ -32,10 +32,10 @@ $(TEST): $(OBJ) $(TESTS:.c=.o)
 	gcc $^ -o $@ $(COMPL) $(CRITER)
 
 %.o: %.c
-	gcc -c $< -o $@ $(COMPL) $(CFLAGD)
+	gcc -c $< -o $@ $(COMPL) $(LFLAG)
 
 debug: $(SRC)
-	gcc $^ -o $@ $(COMPL) -g
+	gcc $^ -o $@ $(COMPL) $(LFLAG) -g
 
 clean:
 	rm -f $(OBJ) $(EXEC)*
