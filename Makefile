@@ -26,13 +26,13 @@ $(EDEV): $(OBJ) $(MAIN:.c=.o)
 	gcc $^ -o $@ $(LFLAG)
 
 $(FINAL): $(OBJ) $(MAIN:.c=.o) 
-	gcc $^ -o $@ $(COMPL)
+	gcc $^ -o $@ $(LFLAG)
 
 $(TEST): $(OBJ) $(TESTS:.c=.o)
 	gcc $^ -o $@ $(COMPL) $(CRITER)
 
 %.o: %.c
-	gcc -c $< -o $@ $(COMPL) $(LFLAG)
+	gcc -c $< -o $@ $(COMPL)
 
 debug: $(SRC)
 	gcc $^ -o $@ $(COMPL) $(LFLAG) -g
