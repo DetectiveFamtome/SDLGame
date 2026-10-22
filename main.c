@@ -30,7 +30,7 @@ void update_bob(struct Bob *bob, SDLGames_Window *wind)
                            SDLG_COLOR(0, 255, 0, 255));
 }
 
-int main()
+int main(void)
 {
     SDLGames_InitArgs arg = { "Hibou", 1400, 1000, 0, 1 };
     SDLGames_Window *wind = SDLGames_Init(arg);
