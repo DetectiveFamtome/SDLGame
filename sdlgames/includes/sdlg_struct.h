@@ -65,7 +65,7 @@ enum SDLGames_TypeObject
 typedef struct SDLGames_ObjectData
 {
     SDL_Surface *surface;
-    SDL_Texture *teture;
+    SDL_Texture *texture;
     SDL_Color *color;
 } SDLGames_ObjectData;
 

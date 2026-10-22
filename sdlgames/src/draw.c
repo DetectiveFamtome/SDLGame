@@ -1,18 +1,16 @@
 #include "draw.h"
 
-void SDLGames_DrawObject(SDLGames_Window* window, SDLGames_DisplayObject* object)
+void SDLGames_DrawObject(SDLGames_Window *window, SDLGames_Object *object)
 {
-	
-	if (object->type == DISPLAY_TEXTURE)
-	{	
-		if (object->texture == NULL)
-		{
-			// TODO Warning/Err dans ce cas la
-			return;
-		}
-		SDL_RendererTexture(window->renderer, object->texture, NULL, NULL);	
-	}
-	
+    if (object->type == DISPLAY_TEXTURE)
+    {
+        if (object->objet->texture == NULL)
+        {
+            // TODO Warning/Err dans ce cas la
+            return;
+        }
+        SDL_RenderTexture(window->renderer, object->objet->texture, NULL, NULL);
+    }
 }
 
 void SDLGames_DrawSolidRect(SDLGames_Window *sdlg_window, SDL_FRect rect,
